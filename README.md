@@ -18,18 +18,61 @@ Especificación completa: [`docs/design/`](docs/design/).
 **Backend:** Python / FastAPI · **Orquestador:** LangChain
 **UI:** Streamlit (prototipo) → React/Next.js (chat definitivo + backoffice)
 
+## Arranque rápido
+
+Requisitos: Python 3.12 y [uv](https://docs.astral.sh/uv/).
+
+```bash
+uv sync --all-groups
+```
+
+```bash
+cp .env.example .env
+```
+
+Arranca la API con recarga automática:
+
+```bash
+uv run uvicorn app.main:app --reload --app-dir backend
+```
+
+- Comprobación de salud: <http://localhost:8000/api/v1/health>
+- Documentación interactiva: <http://localhost:8000/docs>
+
+Calidad y tests:
+
+```bash
+uv run ruff check . && uv run ruff format --check . && uv run pytest
+```
+
+> Si `uv` falla con `invalid peer certificate: UnknownIssuer` (proxy o antivirus que
+> intercepta TLS), añade `--system-certs` o exporta `UV_NATIVE_TLS=true`.
+
+Alternativa con Docker:
+
+```bash
+docker compose up --build
+```
+
 ## Estructura del monorepo
 
 ```
-backend/    API FastAPI y módulos RAG (ingesta, almacenamiento, recuperación, generación)
-frontend/   Chat de usuario final (Streamlit primero, Next.js después)
-admin/      Backoffice: gestor de conocimiento, analíticas, parámetros
-infra/      Docker, despliegue, configuración de entornos
-docs/       Documentación de diseño y de proceso
+backend/app/        Aplicación FastAPI
+  core/             Configuración (Pydantic Settings) y logging
+  api/v1/           Routers y endpoints
+  ingestion/        Módulo 3.1 — extracción, chunking, embeddings
+  storage/          Módulo 3.2 — base de datos vectorial
+  retrieval/        Módulo 3.3 — búsqueda semántica y reranking
+  generation/       Módulo 3.4 — prompt y LLM
+  schemas/          Contratos Pydantic de la API
+frontend/           Chat de usuario final (Streamlit primero, Next.js después)
+admin/              Backoffice: gestor de conocimiento, analíticas, parámetros
+infra/              Dockerfile y configuración de despliegue
+tests/              Suite de pytest
+docs/               Documentación de diseño y de proceso
 ```
 
-> Los directorios se van creando conforme avanzan las ramas del roadmap; a día de hoy solo
-> existe `docs/`.
+Los módulos 3.1–3.4 son paquetes vacíos por ahora: cada rama del roadmap los rellena.
 
 ## API
 
