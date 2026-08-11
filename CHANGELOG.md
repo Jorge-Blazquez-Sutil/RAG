@@ -23,6 +23,11 @@ y versionado según [SemVer](https://semver.org/lang/es/).
 - Base de datos vectorial (módulo 3.2): interfaz `VectorStore` con implementación en
   ChromaDB — similitud del coseno, upsert idempotente, filtros por metadatos, inventario
   de documentos, borrado por documento y detección de cambios de dimensión.
+- API de documentos (sección 4): `POST /documents/ingest` (subida multipart con etiquetas,
+  límite de tamaño verificado al escribir, nombre saneado contra path traversal),
+  `GET /documents` y `DELETE /documents/{doc_id}`, con los errores de ingesta mapeados a
+  códigos HTTP; el pipeline de ingesta vive en `app.ingestion.pipeline` para poder
+  reutilizarlo fuera de HTTP.
 - Generación (módulo 3.4): interfaz `LLMProvider` con implementación de Claude —solo lee
   los bloques de texto, sin parámetros de muestreo, comprueba `stop_reason` antes del
   contenido y activa el fallback de rechazo— más un proveedor `echo` sin modelo ni clave
