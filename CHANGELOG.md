@@ -11,3 +11,6 @@ y versionado según [SemVer](https://semver.org/lang/es/).
 - Andamiaje del monorepo: aplicación FastAPI con `/api/v1/health`, configuración con
   Pydantic Settings, logging, paquetes de los módulos 3.1–3.4, gestión de dependencias
   con uv, ruff, pytest, pre-commit, CI de GitHub Actions y Docker Compose.
+- Extracción de texto (módulo 3.1): extractores de PDF, DOCX y TXT/MD con texto paginado,
+  metadatos (título, autor, fecha) y errores tipados para formato no soportado, archivo
+  corrupto, PDF cifrado y documento sin capa de texto.
