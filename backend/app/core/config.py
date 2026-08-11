@@ -41,9 +41,12 @@ class Settings(BaseSettings):
     tokenizer: Literal["auto", "tiktoken", "heuristic"] = "auto"
 
     # ---------- Embeddings ----------
-    embedding_provider: Literal["openai", "local"] = "openai"
+    #: "fake" es determinista y funciona sin red ni clave: tests y arranque local.
+    #: "local" queda reservado para el proveedor autoalojado (aún sin implementar).
+    embedding_provider: Literal["openai", "local", "fake"] = "openai"
     embedding_model: str = "text-embedding-3-small"
-    embedding_dimensions: int = 1536
+    embedding_dimensions: int = Field(default=1536, ge=1)
+    embedding_batch_size: int = Field(default=64, ge=1, le=2048)
     openai_api_key: str | None = None
 
     # ---------- Almacenamiento (módulo 3.2) ----------

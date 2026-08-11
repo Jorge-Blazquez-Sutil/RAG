@@ -23,3 +23,15 @@ class Chunk(BaseModel):
         """Extracto corto para mostrar en el panel de fuentes de la UI."""
         collapsed = " ".join(self.text.split())
         return collapsed if len(collapsed) <= 200 else f"{collapsed[:197]}..."
+
+
+class EmbeddedChunk(BaseModel):
+    """Fragmento con su vector, listo para insertar en la BD vectorial."""
+
+    chunk: Chunk
+    embedding: list[float]
+    model: str = Field(description="Modelo que generó el vector, para trazar el índice")
+
+    @property
+    def dimensions(self) -> int:
+        return len(self.embedding)

@@ -17,3 +17,6 @@ y versionado según [SemVer](https://semver.org/lang/es/).
 - Segmentación (módulo 3.1): troceado recursivo por tokens con solapamiento configurable,
   fragmentos que nunca cruzan página, IDs deterministas por contenido y conteo de tokens
   sustituible (`TOKENIZER`) que degrada a estimación cuando tiktoken no está disponible.
+- Embeddings (módulo 3.1): interfaz `EmbeddingProvider` con implementación de OpenAI
+  (lotes, orden garantizado por `index`, validación de dimensiones) y proveedor
+  determinista sin red para tests y arranque local, seleccionables con `EMBEDDING_PROVIDER`.

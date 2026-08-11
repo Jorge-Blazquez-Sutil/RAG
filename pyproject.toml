@@ -17,10 +17,12 @@ dependencies = [
     # Ingesta — segmentación (MIT); tiktoken cuenta tokens del modelo de embeddings
     "langchain-text-splitters>=0.3",
     "tiktoken>=0.8",
+    # Ingesta — embeddings
+    "openai>=1.57",
 ]
 
 # Cada rama de módulo añade aquí sus dependencias:
-#   ingestion  -> openai (embeddings)
+#   ingestion  -> sentence-transformers (proveedor de embeddings local)
 #   storage    -> chromadb
 #   retrieval  -> sentence-transformers (cross-encoder)
 #   ui         -> streamlit
