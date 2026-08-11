@@ -162,13 +162,23 @@ class ChromaVectorStore(VectorStore):
         return [
             SearchResult(
                 chunk=self.build_chunk(str(chunk_id), text, dict(meta)),
-                # Chroma devuelve distancia; con espacio coseno, similitud = 1 - d.
-                score=round(1.0 - float(distance), 6),
+                score=self.to_similarity(distance),
             )
             for chunk_id, text, meta, distance in zip(
                 ids, documents, metadatas, distances, strict=True
             )
         ]
+
+    @staticmethod
+    def to_similarity(distance: float) -> float:
+        """Convierte la distancia que devuelve Chroma en similitud del coseno.
+
+        Con espacio coseno, similitud = 1 - distancia. Se acota a [-1, 1] porque
+        el cálculo en coma flotante se sale del rango por unas millonésimas —un
+        vector idéntico llega como distancia -1e-6— y eso bastaría para romper la
+        validación del modelo de respuesta.
+        """
+        return round(min(1.0, max(-1.0, 1.0 - float(distance))), 6)
 
     @staticmethod
     def _build_where(filters: Filters | None) -> dict[str, Any] | None:

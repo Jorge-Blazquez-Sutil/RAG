@@ -52,10 +52,20 @@ class Settings(BaseSettings):
     # ---------- Almacenamiento (módulo 3.2) ----------
     vector_store: Literal["chroma", "pgvector"] = "chroma"
     chroma_path: Path = REPO_ROOT / "chroma_db"
-    collection_name: str = "documents"
+    #: Chroma exige 3-512 caracteres de [a-zA-Z0-9._-], empezando y acabando en
+    #: alfanumérico. Validarlo aquí convierte un fallo en tiempo de ejecución en
+    #: un error de arranque con el motivo delante.
+    collection_name: str = Field(
+        default="documents",
+        pattern=r"^[a-zA-Z0-9][a-zA-Z0-9._-]{1,510}[a-zA-Z0-9]$",
+    )
 
     # ---------- Recuperación (módulo 3.3) ----------
     top_k: int = Field(default=5, ge=1, le=50)
+    #: Similitud mínima para conservar un fragmento. Desactivado por defecto: el
+    #: valor útil depende del modelo de embeddings y del corpus, y se calibra con
+    #: el golden set (rama feature/eval-rag-harness). Ver app/retrieval/retriever.py.
+    retrieval_min_score: float | None = Field(default=None, ge=-1.0, le=1.0)
     rerank_enabled: bool = False
     reranker_model: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 

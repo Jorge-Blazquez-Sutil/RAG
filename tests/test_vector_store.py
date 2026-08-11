@@ -185,6 +185,27 @@ def test_search_combines_several_filters(store: ChromaVectorStore) -> None:
     assert [r.chunk.filename for r in results] == ["contrato.pdf"]
 
 
+@pytest.mark.parametrize(
+    ("distance", "expected"),
+    [
+        (-1e-6, 1.0),  # vector idéntico: el ruido de coma flotante saca el score de rango
+        (0.0, 1.0),
+        (1.0, 0.0),
+        (2.0000001, -1.0),  # extremo opuesto, también fuera de rango por redondeo
+    ],
+)
+def test_similarity_stays_within_the_valid_range(distance: float, expected: float) -> None:
+    assert ChromaVectorStore.to_similarity(distance) == expected
+
+
+def test_identical_vector_scores_one_without_overflowing(store: ChromaVectorStore) -> None:
+    """Score > 1 rompería la validación de SearchResult; el acotado lo impide."""
+    embedding = [0.37, -0.82, 0.11, 0.44]
+    store.upsert([build_embedded(chunk_id="a", embedding=embedding)])
+
+    assert store.search(embedding, top_k=1)[0].score == 1.0
+
+
 # ---------- Trazabilidad ----------
 
 

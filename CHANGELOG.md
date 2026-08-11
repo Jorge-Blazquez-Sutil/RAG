@@ -23,3 +23,7 @@ y versionado según [SemVer](https://semver.org/lang/es/).
 - Base de datos vectorial (módulo 3.2): interfaz `VectorStore` con implementación en
   ChromaDB — similitud del coseno, upsert idempotente, filtros por metadatos, inventario
   de documentos, borrado por documento y detección de cambios de dimensión.
+- Recuperación (módulo 3.3): `Retriever` que vectoriza la consulta con el proveedor de la
+  ingesta, busca el Top-K con filtros de metadatos, aplica umbral de score opcional
+  (`RETRIEVAL_MIN_SCORE`) y mide la latencia; `RetrievalResult.as_context()` prepara el
+  CONTEXTO etiquetado con documento y página para el prompt del módulo 3.4.
