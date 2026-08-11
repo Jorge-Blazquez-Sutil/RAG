@@ -1,0 +1,54 @@
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+
+# ---------- Node / Frontend ----------
+node_modules/
+.next/
+out/
+.turbo/
+*.tsbuildinfo
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---------- Entorno y secretos ----------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ---------- Datos y artefactos del RAG ----------
+chroma_db/
+data/raw/
+data/processed/
+data/uploads/
+*.sqlite3
+*.duckdb
+models/
+.cache/
+
+# ---------- Herramientas / IDE ----------
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
