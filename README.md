@@ -39,6 +39,17 @@ uv run uvicorn app.main:app --reload --app-dir backend
 - Comprobación de salud: <http://localhost:8000/api/v1/health>
 - Documentación interactiva: <http://localhost:8000/docs>
 
+Con el backend en marcha, el prototipo de chat (en otra terminal):
+
+```bash
+uv run streamlit run frontend/streamlit_app.py
+```
+
+Para probarlo sin claves de API, arranca el backend con proveedores simulados
+(`EMBEDDING_PROVIDER=fake LLM_PROVIDER=fake`): el circuito completo funciona, pero las
+respuestas no valen para juzgar calidad. Si el backend no está en `localhost:8000`,
+apunta la UI con `RAG_API_URL`.
+
 Calidad y tests:
 
 ```bash
