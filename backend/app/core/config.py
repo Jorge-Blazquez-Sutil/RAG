@@ -70,6 +70,11 @@ class Settings(BaseSettings):
     reranker_model: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 
     # ---------- Generación (módulo 3.4) ----------
+    #: Presupuesto de tokens del CONTEXTO. Un contexto grande cuesta en cada
+    #: consulta y diluye la señal: el modelo rinde mejor con pocos fragmentos
+    #: buenos que con muchos mediocres.
+    max_context_tokens: int = Field(default=6000, ge=500)
+    max_history_turns: int = Field(default=6, ge=0)
     llm_provider: Literal["anthropic", "ollama"] = "anthropic"
     llm_model: str = "claude-opus-5"
     llm_max_tokens: int = 16000
