@@ -19,11 +19,13 @@ dependencies = [
     "tiktoken>=0.8",
     # Ingesta — embeddings
     "openai>=1.57",
+    # Almacenamiento — base de datos vectorial local (Apache-2.0)
+    "chromadb>=0.5",
 ]
 
 # Cada rama de módulo añade aquí sus dependencias:
 #   ingestion  -> sentence-transformers (proveedor de embeddings local)
-#   storage    -> chromadb
+#   storage    -> psycopg + pgvector (backend distribuido)
 #   retrieval  -> sentence-transformers (cross-encoder)
 #   ui         -> streamlit
 

@@ -20,3 +20,6 @@ y versionado según [SemVer](https://semver.org/lang/es/).
 - Embeddings (módulo 3.1): interfaz `EmbeddingProvider` con implementación de OpenAI
   (lotes, orden garantizado por `index`, validación de dimensiones) y proveedor
   determinista sin red para tests y arranque local, seleccionables con `EMBEDDING_PROVIDER`.
+- Base de datos vectorial (módulo 3.2): interfaz `VectorStore` con implementación en
+  ChromaDB — similitud del coseno, upsert idempotente, filtros por metadatos, inventario
+  de documentos, borrado por documento y detección de cambios de dimensión.
