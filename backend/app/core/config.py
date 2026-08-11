@@ -75,7 +75,8 @@ class Settings(BaseSettings):
     #: buenos que con muchos mediocres.
     max_context_tokens: int = Field(default=6000, ge=500)
     max_history_turns: int = Field(default=6, ge=0)
-    llm_provider: Literal["anthropic", "ollama"] = "anthropic"
+    #: "fake" responde sin modelo ni clave: circuito completo en local y en tests.
+    llm_provider: Literal["anthropic", "ollama", "fake"] = "anthropic"
     llm_model: str = "claude-opus-5"
     llm_max_tokens: int = 16000
     llm_effort: Literal["low", "medium", "high", "xhigh", "max"] = "high"

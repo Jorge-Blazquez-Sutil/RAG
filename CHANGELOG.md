@@ -23,6 +23,10 @@ y versionado según [SemVer](https://semver.org/lang/es/).
 - Base de datos vectorial (módulo 3.2): interfaz `VectorStore` con implementación en
   ChromaDB — similitud del coseno, upsert idempotente, filtros por metadatos, inventario
   de documentos, borrado por documento y detección de cambios de dimensión.
+- Generación (módulo 3.4): interfaz `LLMProvider` con implementación de Claude —solo lee
+  los bloques de texto, sin parámetros de muestreo, comprueba `stop_reason` antes del
+  contenido y activa el fallback de rechazo— más un proveedor `echo` sin modelo ni clave
+  para probar el circuito completo; `LLM_PROVIDER` selecciona cuál.
 - Ensamblaje del prompt (módulo 3.4): plantilla de sistema con la respuesta de rendición
   literal, citas por documento y página, y contexto tratado como datos frente a inyección
   de instrucciones; `build_prompt()` ajusta el CONTEXTO a un presupuesto de tokens
