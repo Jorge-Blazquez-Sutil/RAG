@@ -23,6 +23,10 @@ y versionado según [SemVer](https://semver.org/lang/es/).
 - Base de datos vectorial (módulo 3.2): interfaz `VectorStore` con implementación en
   ChromaDB — similitud del coseno, upsert idempotente, filtros por metadatos, inventario
   de documentos, borrado por documento y detección de cambios de dimensión.
+- API de consulta (sección 4): `POST /chat/query` con el contrato del documento
+  (`query`, `chat_history_id`, `filters` → `answer`, `sources[]`), encadenando
+  recuperación, prompt y generación; sin contexto responde la frase de rendición sin
+  llamar al modelo, y reporta latencias de recuperación y total.
 - API de documentos (sección 4): `POST /documents/ingest` (subida multipart con etiquetas,
   límite de tamaño verificado al escribir, nombre saneado contra path traversal),
   `GET /documents` y `DELETE /documents/{doc_id}`, con los errores de ingesta mapeados a
