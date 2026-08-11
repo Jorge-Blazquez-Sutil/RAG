@@ -46,7 +46,11 @@ uv run ruff check . && uv run ruff format --check . && uv run pytest
 ```
 
 > Si `uv` falla con `invalid peer certificate: UnknownIssuer` (proxy o antivirus que
-> intercepta TLS), añade `--system-certs` o exporta `UV_NATIVE_TLS=true`.
+> intercepta TLS), añade `--system-certs` o exporta `UV_NATIVE_TLS=true`. El mismo
+> entorno impide que `tiktoken` descargue su tokenizador: la ingesta lo detecta, avisa
+> por log y pasa a estimar tokens por caracteres. Para recuperar el conteo exacto,
+> apunta `REQUESTS_CA_BUNDLE` al certificado raíz corporativo (o fija `TOKENIZER=heuristic`
+> si el despliegue va a ser aislado y prefieres un comportamiento fijo).
 
 Alternativa con Docker:
 

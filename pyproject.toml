@@ -14,10 +14,13 @@ dependencies = [
     # Ingesta — extracción de texto (licencias BSD / MIT)
     "pypdf>=5.1",
     "python-docx>=1.1",
+    # Ingesta — segmentación (MIT); tiktoken cuenta tokens del modelo de embeddings
+    "langchain-text-splitters>=0.3",
+    "tiktoken>=0.8",
 ]
 
 # Cada rama de módulo añade aquí sus dependencias:
-#   ingestion  -> langchain-text-splitters, tiktoken (chunking y embeddings)
+#   ingestion  -> openai (embeddings)
 #   storage    -> chromadb
 #   retrieval  -> sentence-transformers (cross-encoder)
 #   ui         -> streamlit

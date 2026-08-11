@@ -9,7 +9,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Literal
 
-from pydantic import Field
+from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -35,6 +35,10 @@ class Settings(BaseSettings):
     allowed_extensions: set[str] = {".pdf", ".docx", ".txt"}
     chunk_size: int = Field(default=800, ge=100, le=4000, description="Tokens por chunk")
     chunk_overlap: int = Field(default=120, ge=0, description="Solapamiento en tokens (~15 %)")
+    #: "auto" usa tiktoken si está disponible y estima por caracteres si no.
+    #: "tiktoken" exige el conteo exacto y falla si no puede cargarlo.
+    #: "heuristic" fuerza la estimación (despliegues sin salida a internet).
+    tokenizer: Literal["auto", "tiktoken", "heuristic"] = "auto"
 
     # ---------- Embeddings ----------
     embedding_provider: Literal["openai", "local"] = "openai"
@@ -60,6 +64,17 @@ class Settings(BaseSettings):
     anthropic_api_key: str | None = None
     ollama_base_url: str = "http://localhost:11434"
     ollama_model: str = "llama3"
+
+    @model_validator(mode="after")
+    def _check_chunking(self) -> "Settings":
+        # Con solapamiento >= tamaño el troceado no avanzaría: cada fragmento
+        # empezaría donde empezó el anterior.
+        if self.chunk_overlap >= self.chunk_size:
+            raise ValueError(
+                f"CHUNK_OVERLAP ({self.chunk_overlap}) debe ser menor que "
+                f"CHUNK_SIZE ({self.chunk_size})"
+            )
+        return self
 
 
 @lru_cache
